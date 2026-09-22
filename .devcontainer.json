@@ -1,0 +1,22 @@
+{
+  "name": "Apache & MySQL 9.7 Environment",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "forwardPorts": [80, 3306],
+  "portsAttributes": {
+    "80": {
+      "label": "Servidor Web Apache",
+      "onAutoForward": "notify"
+    },
+    "3306": {
+      "label": "Base de datos MySQL",
+      "onAutoForward": "silent"
+    }
+  },
+  "settings": {},
+  "extensions": [
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-mysql"
+  ]
+}
