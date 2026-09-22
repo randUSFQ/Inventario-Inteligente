@@ -1,11 +1,15 @@
 services:
   apache:
-    image: httpd:2.4
+    build: .
     ports:
       - "8080:80"
-    volumes:
-      - ./www:/usr/local/apache2/htdocs:ro
-    restart: unless-stopped
+    environment:
+      DB_HOST: mysql
+      DB_NAME: ${MYSQL_DATABASE:-laboratorio}
+      DB_USER: ${MYSQL_USER:-alumno}
+      DB_PASSWORD: ${MYSQL_PASSWORD:?Define MYSQL_PASSWORD en .env}
+    depends_on:
+      - mysql
 
   mysql:
     image: mysql:9.7
@@ -16,7 +20,6 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Define MYSQL_PASSWORD en .env}
     volumes:
       - mysql_data:/var/lib/mysql
-    restart: unless-stopped
 
 volumes:
   mysql_data:
